@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: openground-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: prod
+      - key: PORT
+        value: 8080
+      - key: JWT_SECRET
+        generateValue: true
+      - key: DB_URL
+        fromDatabase:
+          name: openground-db
+          property: connectionString
+      - key: DB_USERNAME
+        fromDatabase:
+          name: openground-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: openground-db
+          property: password
+
+databases:
+  - name: openground-db
+    databaseName: openground
+    plan: free
